@@ -1,0 +1,32 @@
+# Rust 编译产物
+/target/
+**/*.rs.bk
+
+# Cargo 相关
+Cargo.lock
+
+# 日志和临时文件
+*.log
+*.tmp
+*.swp
+*.bak
+
+# MacOS 系统文件
+.DS_Store
+
+# Linux/WSL 系统文件
+*~
+
+# 编辑器/IDE 相关
+.vscode/
+.idea/
+*.code-workspace
+
+# 钱包/密钥等敏感信息（如有）
+*.key
+*.pem
+*.secrets
+
+# Python/脚本缓存
+__pycache__/
+*.pyc 
