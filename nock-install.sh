@@ -18,13 +18,32 @@ fi
 
 # 安装依赖
 if [[ "$OS" == "Darwin" ]]; then
-  echo -e "\n🍎 检测到 macOS，使用 brew 安装依赖..."
+  echo -e "\n🍎 检测到 macOS，准备安装依赖..."
+
+  # 检查 Xcode Command Line Tools
+  if ! xcode-select -p >/dev/null 2>&1; then
+    echo "❗ 未检测到 Xcode Command Line Tools，正在安装..."
+    xcode-select --install
+    echo "请安装完成后重新运行本脚本。"
+    exit 1
+  fi
+
+  # 检查 Homebrew
   if ! command -v brew >/dev/null 2>&1; then
     echo "❌ 未检测到 Homebrew，请先手动安装 Homebrew: https://brew.sh/"
     exit 1
   fi
+
   brew update
-  brew install screen curl git wget lz4 jq make gcc nano automake autoconf tmux htop pkg-config openssl leveldb ncdu unzip clang
+  brew install curl gcc
+
+  echo "🦀 安装 Rust..."
+  if ! command -v rustc &>/dev/null; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    source "$HOME/.cargo/env"
+  else
+    echo "🦀 Rust 已安装，跳过安装。"
+  fi
 else
   echo -e "\n🐧 检测到 Linux，使用 apt 安装依赖..."
   sudo apt-get update && sudo apt install sudo -y
